@@ -12,13 +12,13 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDone="#dragDone1" prefHeight="720.0" prefWidth="968.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Slider fx:id="kontrastSlider" layoutX="781.0" layoutY="154.0" majorTickUnit="100.0" min="-100.0" onMouseClicked="#dragDone2" showTickLabels="true" />
-      <Slider fx:id="rozmycieSlider" layoutX="781.0" layoutY="87.0" majorTickUnit="50.0" onMouseClicked="#dragDone1" showTickLabels="true" />
-      <Slider fx:id="ostroscSlider" layoutX="781.0" layoutY="225.0" majorTickUnit="100.0" min="-100.0" onDragDone="#dragDone3" onMouseClicked="#dragDone3" showTickLabels="true" />
+      <Slider fx:id="rozmycieSlider" layoutX="781.0" layoutY="87.0" majorTickUnit="100.0" min="-100.0" onMouseClicked="#dragDone1" showTickLabels="true" />
+      <Slider fx:id="ostroscSlider" layoutX="781.0" layoutY="225.0" majorTickUnit="50.0" onDragDone="#dragDone3" onMouseClicked="#dragDone3" showTickLabels="true" />
       <Label layoutX="825.0" layoutY="120.0" text="Rozmycie" />
-      <Label layoutX="829.0" layoutY="194.0" text="Kontrast" />
+      <Label layoutX="829.0" layoutY="194.0" text="Jasność" />
       <Label layoutX="830.0" layoutY="258.0" text="Ostrość" />
-      <Button alignment="CENTER" layoutX="743.0" layoutY="637.0" mnemonicParsing="false" onAction="#turn90" text="Obrót 90°" />
-      <Button layoutX="846.0" layoutY="637.0" mnemonicParsing="false" onAction="#turn180" text="Obrót 180°" />
+      <Button alignment="CENTER" layoutX="747.0" layoutY="471.0" mnemonicParsing="false" onAction="#turn90" text="Obrót 90°" />
+      <Button layoutX="838.0" layoutY="471.0" mnemonicParsing="false" onAction="#turn180" text="Obrót 180°" />
       <MenuButton layoutX="33.0" layoutY="14.0" mnemonicParsing="false" text="Plik...">
         <items>
           <MenuItem mnemonicParsing="false" onAction="#openNew" text="Otwórz nowy" />
@@ -26,12 +26,6 @@
         </items>
       </MenuButton>
       <Button layoutX="117.0" layoutY="14.0" mnemonicParsing="false" onAction="#turn180" text="Zaznacz" />
-      <Slider fx:id="zielony" layoutX="781.0" layoutY="360.0" majorTickUnit="100.0" max="255.0" onMouseClicked="#dragDone2" showTickLabels="true" />
-      <Slider fx:id="czerwony" layoutX="781.0" layoutY="290.0" majorTickUnit="100.0" max="255.0" onMouseClicked="#dragDone1" showTickLabels="true" />
-      <Slider fx:id="niebieski" layoutX="781.0" layoutY="425.0" majorTickUnit="100.0" max="255.0" onDragDone="#dragDone3" onMouseClicked="#dragDone3" showTickLabels="true" />
-      <Label layoutX="825.0" layoutY="323.0" text="Czerwony" />
-      <Label layoutX="831.0" layoutY="393.0" text="Zielony" />
-      <Label layoutX="826.0" layoutY="469.0" text="Niebieski" />
       <AnchorPane fx:id="zdjecie" layoutX="62.0" layoutY="94.0" prefHeight="430.0" prefWidth="378.0">
          <children>
             <ImageView fitHeight="200.0" fitWidth="150.0" layoutX="114.0" layoutY="55.0">

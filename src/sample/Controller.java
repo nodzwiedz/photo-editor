@@ -9,6 +9,9 @@ import javafx.scene.layout.AnchorPane;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.io.*;
 
 import static javax.imageio.ImageIO.write;
@@ -31,14 +34,24 @@ public class Controller {
     @FXML
     private Slider niebieski;
 
-    BufferedImage bimg=null;
+    BufferedImage ORbimg;
+    BufferedImage bimg;
     Image img=null;
     ImageView imgView;
-    int moment_obrotu=0;
 
     public void openNew() throws IOException {                          //otworz nowy plik
 
-        bimg = ImageIO.read(new File("src\\ola.jpg"));
+        ORbimg = ImageIO.read(new File("src\\ola.jpg"));
+        int width = ORbimg.getWidth();
+        int height = ORbimg.getHeight();
+        int rgb;
+        bimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+        for(int i=0; i < width;i++){
+            for(int j=0; j<height;j++){
+                rgb = ORbimg.getRGB(i,j);
+                bimg.setRGB(i,j,rgb);
+            }
+        }
         img = new Image("ola.jpg");
         imgView = new ImageView(img);
         zdjecie.getChildren().add(imgView);
@@ -58,43 +71,14 @@ public class Controller {
         BufferedImage bimg90 = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         int rgb=0;
 
-        switch(moment_obrotu) {
-            case 0: {
-                for (int i = 0; i < width; i++) {               //wysokosc starego
-                    for (int j = 0; j < height; j++) {          //szerokosc starego
-                        rgb = bimg.getRGB(j, i);                //i = height, j=width starego
-                        bimg90.setRGB(i, height - j - 1, rgb);
-                    }
-                }
-                moment_obrotu = 1;
-                break;
+        for (int i = 0; i < width; i++) {               //wysokosc starego
+            for (int j = 0; j < height; j++) {          //szerokosc starego
+                rgb = bimg.getRGB(j, i);                //i = height, j=width starego
+                bimg90.setRGB(i, height - j - 1, rgb);
             }
-
-            case 1: {
-                for (int i = 0; i < width; i++) {
-                    for (int j = 0; j < height; j++) {
-                        rgb = bimg.getRGB(i, j);
-                        bimg90.setRGB(i, height - j - 1, rgb);
-                    }
-                }
-                moment_obrotu = 2;
-                break;
-            }
-
-            case 2: {
-                for (int i = 0; i < width; i++) {
-                    for (int j = 0; j < height; j++) {
-                        rgb = bimg.getRGB(j, i);
-                        bimg90.setRGB(i, j, rgb);
-                    }
-                }
-                moment_obrotu = 3;
-                break;
-            }
-            case 3:
-
-                break;
         }
+
+
 
         bimg = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
         bimg = bimg90;
@@ -127,34 +111,56 @@ public class Controller {
 
     }
 
-    public void dragDone1() {                                           //rozmycie
+    public void dragDone1() throws IOException {                                           //rozmycie
 
         double rozmycie = rozmycieSlider.getValue();
-        /*
-        int r = (int)rozmycie;
-        Graphics g = bimg.createGraphics();
-        g.drawLine(r,r,100+r,100+r);
-        g.drawString("penis", 100,200);
-        g.dispose();
+        int rozm = (int)rozmycie;
 
-        try {
-            ImageIO.write(bimg, "jpg", new File("src\\ola2.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        float[] matrix = {
+                0.1111f, 0.1111f, 0.1111f,                              //zawsze w tablicy matrix suma cyfr musi byc rowna 0
+                0.1111f, 0.1111f, 0.1111f,                              //wiec trzeba zmieniac rozmiar tablicy
+                0.1111f, 0.1111f, 0.1111f,
+        };
+
+        int width = bimg.getWidth();
+        int height = bimg.getHeight();
+        BufferedImage dstbimg = new
+                BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
+        Kernel kernel = new Kernel(3,3,matrix);
+        ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_ZERO_FILL, null);
+        cop.filter(bimg,dstbimg);
+
+        ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
         img = new Image(new File("src\\ola2.jpg").toURI().toString());
         imgView = new ImageView(img);
         zdjecie.getChildren().clear();
         zdjecie.getChildren().add(imgView);
-        */
 
     }
 
     public void dragDone2() {                                           //kontrast
     }
 
-    public void dragDone3(){                                            //ostrosc
+    public void dragDone3() throws IOException {                                            //ostrosc
         Double ostrosc = rozmycieSlider.getValue();
+
+        float[] SHARPEN3x3 = {                                                              //jeszcze do konca nie ogarnalem jak to dziala
+                0.0f, -1.0f, 0.0f,                                                          //bo to trzeba zmieniac ta tablice za pomoca suwaka
+                -1.0f, 5.0f, -1.0f,                                                         //ale nie wiem jak ja zmieniac
+                0.0f, -1.0f, 0.0f};                                                         //wiem tylko ze suma tez ma byc rowna 0
+        int width = bimg.getWidth();
+        int height = bimg.getHeight();
+        BufferedImage dstbimg = new
+                BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
+        Kernel kernel = new Kernel(3,3,SHARPEN3x3);
+        ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        cop.filter(bimg,dstbimg);
+
+        ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
+        img = new Image(new File("src\\ola2.jpg").toURI().toString());
+        imgView = new ImageView(img);
+        zdjecie.getChildren().clear();
+        zdjecie.getChildren().add(imgView);
     }
 
 
