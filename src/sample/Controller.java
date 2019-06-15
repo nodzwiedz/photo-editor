@@ -22,17 +22,17 @@ public class Controller {
     @FXML
     private Slider rozmycieSlider;
     @FXML
-    private Slider kontrastSlider;
+    private Slider jasnoscSlider;
     @FXML
     private Slider ostroscSlider;
     @FXML
     private AnchorPane zdjecie;
     @FXML
-    private Slider zielony;
+    private Slider zielonySlider;
     @FXML
-    private Slider czerwony;
+    private Slider czerwonySlider;
     @FXML
-    private Slider niebieski;
+    private Slider niebieskiSlider;
 
     BufferedImage ORbimg;
     BufferedImage bimg;
@@ -74,11 +74,9 @@ public class Controller {
         for (int i = 0; i < width; i++) {               //wysokosc starego
             for (int j = 0; j < height; j++) {          //szerokosc starego
                 rgb = bimg.getRGB(j, i);                //i = height, j=width starego
-                bimg90.setRGB(i, height - j - 1, rgb);
+                bimg90.setRGB(width-i-1, j, rgb);
             }
         }
-
-
 
         bimg = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
         bimg = bimg90;
@@ -115,20 +113,19 @@ public class Controller {
 
         double rozmycie = rozmycieSlider.getValue();
         int rozm = (int)rozmycie;
+        float wymiar_matrixa = (float)(rozm*rozm);
+        float wartosc_matrix = (float)(1.0/wymiar_matrixa);
+        float[] matrix = new float[(rozm*rozm)];
 
-        float[] matrix = {
-                0.1111f, 0.1111f, 0.1111f,                              //zawsze w tablicy matrix suma cyfr musi byc rowna 0
-                0.1111f, 0.1111f, 0.1111f,                              //wiec trzeba zmieniac rozmiar tablicy
-                0.1111f, 0.1111f, 0.1111f,
-        };
+        for(int i=0; i<(rozm*rozm);i++)
+            matrix[i] = wartosc_matrix;                     //ustawiamy wartosci macierzy filtrujacej
 
         int width = bimg.getWidth();
         int height = bimg.getHeight();
-        BufferedImage dstbimg = new
-                BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
-        Kernel kernel = new Kernel(3,3,matrix);
-        ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_ZERO_FILL, null);
-        cop.filter(bimg,dstbimg);
+        BufferedImage dstbimg = new BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
+        Kernel kernel = new Kernel(rozm,rozm,matrix);
+        ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
+        cop.filter(bimg,dstbimg);                                                           //filtrujemy
 
         ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
         img = new Image(new File("src\\ola2.jpg").toURI().toString());
@@ -138,16 +135,18 @@ public class Controller {
 
     }
 
-    public void dragDone2() {                                           //kontrast
+    public void dragDone2() {                                           //jasnosc
     }
 
     public void dragDone3() throws IOException {                                            //ostrosc
-        Double ostrosc = rozmycieSlider.getValue();
+        double double_ostrosc = ostroscSlider.getValue();
+        float ostrosc = (float) double_ostrosc;
+        float ostrosc_sasiad = ((ostrosc-1.0f)/4.0f);                                       //liczymy wartosci elementow macierzy
 
-        float[] SHARPEN3x3 = {                                                              //jeszcze do konca nie ogarnalem jak to dziala
-                0.0f, -1.0f, 0.0f,                                                          //bo to trzeba zmieniac ta tablice za pomoca suwaka
-                -1.0f, 5.0f, -1.0f,                                                         //ale nie wiem jak ja zmieniac
-                0.0f, -1.0f, 0.0f};                                                         //wiem tylko ze suma tez ma byc rowna 0
+        float[] SHARPEN3x3 = {
+                0.0f, -ostrosc_sasiad, 0.0f,
+                -ostrosc_sasiad, ostrosc, -ostrosc_sasiad,
+                0.0f, -ostrosc_sasiad, 0.0f};
         int width = bimg.getWidth();
         int height = bimg.getHeight();
         BufferedImage dstbimg = new
