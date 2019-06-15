@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,11 +35,16 @@ public class Controller {
     private Slider czerwonySlider;
     @FXML
     private Slider niebieskiSlider;
+    @FXML
+    private ColorPicker colorPicker;
 
     BufferedImage ORbimg;
     BufferedImage bimg;
+    BufferedImage dstbimg;              //ten na ktorym dokonujemy rozmycia, wyostrzenia itd.
     Image img=null;
     ImageView imgView;
+    boolean toolSelected = false;
+    GraphicsContext brushTool;
 
     public void openNew() throws IOException {                          //otworz nowy plik
 
@@ -62,6 +69,13 @@ public class Controller {
 
 
     public void save(){                                                 //zapisz
+
+    }
+
+    public void draw(){                                                 //rysowanie pedzlem
+
+
+
 
     }
 
@@ -122,7 +136,7 @@ public class Controller {
 
         int width = bimg.getWidth();
         int height = bimg.getHeight();
-        BufferedImage dstbimg = new BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
+        dstbimg = new BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
         Kernel kernel = new Kernel(rozm,rozm,matrix);
         ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
         cop.filter(bimg,dstbimg);                                                           //filtrujemy
@@ -149,8 +163,7 @@ public class Controller {
                 0.0f, -ostrosc_sasiad, 0.0f};
         int width = bimg.getWidth();
         int height = bimg.getHeight();
-        BufferedImage dstbimg = new
-                BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
+        dstbimg = new BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
         Kernel kernel = new Kernel(3,3,SHARPEN3x3);
         ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
         cop.filter(bimg,dstbimg);
@@ -162,8 +175,13 @@ public class Controller {
         zdjecie.getChildren().add(imgView);
     }
 
+    public void dragDone4() {                                           //czerwony
+    }
 
+    public void dragDone5() {                                           //zielony
+    }
 
-
+    public void dragDone6() {                                           //niebieski
+    }
 }
 
