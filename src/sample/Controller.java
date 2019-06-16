@@ -40,11 +40,10 @@ public class Controller {
 
     BufferedImage ORbimg;
     BufferedImage bimg;
-    BufferedImage dstbimg;              //ten na ktorym dokonujemy rozmycia, wyostrzenia itd.
+    BufferedImage dstbimg;                                  //ten na ktorym dokonujemy rozmycia, wyostrzenia itd.
     Image img=null;
     ImageView imgView;
-    boolean toolSelected = false;
-    GraphicsContext brushTool;
+
 
     public void openNew() throws IOException {                          //otworz nowy plik
 
@@ -53,16 +52,22 @@ public class Controller {
         int height = ORbimg.getHeight();
         int rgb;
         bimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
-        for(int i=0; i < width;i++){
-            for(int j=0; j<height;j++){
-                rgb = ORbimg.getRGB(i,j);
-                bimg.setRGB(i,j,rgb);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                rgb = ORbimg.getRGB(i, j);
+                bimg.setRGB(i, j, rgb);
             }
         }
-        img = new Image("ola.jpg");
-        imgView = new ImageView(img);
-        zdjecie.getChildren().add(imgView);
-
+        dstbimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                rgb = ORbimg.getRGB(i, j);
+                dstbimg.setRGB(i, j, rgb);
+            }
+            img = new Image("ola.jpg");
+            imgView = new ImageView(img);
+            zdjecie.getChildren().add(imgView);
+        }
     }
 
 
@@ -80,21 +85,20 @@ public class Controller {
     }
 
     public void turn90() throws IOException {                           //obrot 90
-        int width = bimg.getHeight();
-        int height = bimg.getWidth();
+        int width = dstbimg.getHeight();
+        int height = dstbimg.getWidth();
         BufferedImage bimg90 = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         int rgb=0;
 
-        for (int i = 0; i < width; i++) {               //wysokosc starego
-            for (int j = 0; j < height; j++) {          //szerokosc starego
-                rgb = bimg.getRGB(j, i);                //i = height, j=width starego
-                bimg90.setRGB(width-i-1, j, rgb);
+            for (int i = 0; i < width; i++) {               //wysokosc starego
+                for (int j = 0; j < height; j++) {          //szerokosc starego
+                    rgb = dstbimg.getRGB(j, i);                //i = height, j=width starego
+                    bimg90.setRGB(width - i - 1, j, rgb);
+                }
             }
-        }
 
-        bimg = new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
-        bimg = bimg90;
-        ImageIO.write(bimg, "jpg", new File("src\\ola2.jpg"));
+        dstbimg = bimg90;
+        ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
         img = new Image(new File("src\\ola2.jpg").toURI().toString());
         imgView = new ImageView(img);
         zdjecie.getChildren().clear();
@@ -103,19 +107,19 @@ public class Controller {
 
     public void turn180() throws IOException {                          //obrot 180
 
-        BufferedImage turned_bimg = new BufferedImage(bimg.getWidth(),bimg.getHeight(),BufferedImage.TYPE_INT_RGB);
-        int width = bimg.getWidth();
-        int height = bimg.getHeight();
+        BufferedImage turned_bimg = new BufferedImage(dstbimg.getWidth(),dstbimg.getHeight(),BufferedImage.TYPE_INT_RGB);
+        int width = dstbimg.getWidth();
+        int height = dstbimg.getHeight();
         int rgb=0;
 
         for(int i=0; i<width;i++){
             for(int j=0; j<height;j++){
-                rgb = bimg.getRGB(i,j);
+                rgb = dstbimg.getRGB(i,j);
                 turned_bimg.setRGB((width-i-1),(height-j-1),rgb);
             }
         }
-        bimg = turned_bimg;
-        ImageIO.write(bimg, "jpg", new File("src\\ola2.jpg"));
+        dstbimg = turned_bimg;
+        ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
         img = new Image(new File("src\\ola2.jpg").toURI().toString());
         imgView = new ImageView(img);
         zdjecie.getChildren().clear();
@@ -134,9 +138,6 @@ public class Controller {
         for(int i=0; i<(rozm*rozm);i++)
             matrix[i] = wartosc_matrix;                     //ustawiamy wartosci macierzy filtrujacej
 
-        int width = bimg.getWidth();
-        int height = bimg.getHeight();
-        dstbimg = new BufferedImage(width ,height ,BufferedImage.TYPE_INT_RGB);
         Kernel kernel = new Kernel(rozm,rozm,matrix);
         ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
         cop.filter(bimg,dstbimg);                                                           //filtrujemy
@@ -150,6 +151,7 @@ public class Controller {
     }
 
     public void dragDone2() {                                           //jasnosc
+        System.out.println("wywoalnie");
     }
 
     public void dragDone3() throws IOException {                                            //ostrosc
@@ -175,13 +177,100 @@ public class Controller {
         zdjecie.getChildren().add(imgView);
     }
 
-    public void dragDone4() {                                           //czerwony
+    public void dragDone4() throws IOException {                                           //czerwony
+
+
+        double czerwony = czerwonySlider.getValue();
+        int r = (int) czerwony;
+        int width,height;
+        int red,green,blue,rgb;
+
+            width =  dstbimg.getWidth();
+            height = dstbimg.getHeight();
+            for(int i=0; i<width; i++){
+                for(int j=0; j< height; j++){
+                    rgb = bimg.getRGB(i,j);
+                    red = (rgb >> 16) & 0xFF;
+                    green = (rgb >> 8) & 0xFF;
+                    blue = rgb & 0xFF;
+                    red += r;
+                    if(red < 0) red = 0;                    //przekroczenie wartosci
+                    if( red > 255) red = 255;
+                    rgb = ((red&0x0ff)<<16)|((green&0x0ff)<<8)|(blue&0x0ff);
+
+                    dstbimg.setRGB(i,j,rgb);
+                }
+            }
+
+        ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
+        img = new Image(new File("src\\ola2.jpg").toURI().toString());
+        imgView = new ImageView(img);
+        zdjecie.getChildren().clear();
+        zdjecie.getChildren().add(imgView);
+
+
     }
 
-    public void dragDone5() {                                           //zielony
+    public void dragDone5() throws IOException {                                           //zielony
+
+        double zielony = zielonySlider.getValue();
+        int g = (int) zielony;
+        int width,height;
+        int red,green,blue,rgb;
+
+        width =  dstbimg.getWidth();
+        height = dstbimg.getHeight();
+        for(int i=0; i<width; i++){
+            for(int j=0; j< height; j++){
+                rgb = bimg.getRGB(i,j);
+                red = (rgb >> 16) & 0xFF;
+                green = (rgb >> 8) & 0xFF;
+                blue = rgb & 0xFF;
+                green += g;
+                if(green < 0) green = 0;                    //przekroczenie wartosci
+                if( green > 255) green = 255;
+                rgb = ((red&0x0ff)<<16)|((green&0x0ff)<<8)|(blue&0x0ff);
+
+                dstbimg.setRGB(i,j,rgb);
+            }
+        }
+
+        ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
+        img = new Image(new File("src\\ola2.jpg").toURI().toString());
+        imgView = new ImageView(img);
+        zdjecie.getChildren().clear();
+        zdjecie.getChildren().add(imgView);
     }
 
-    public void dragDone6() {                                           //niebieski
+    public void dragDone6() throws IOException {                                           //niebieski
+
+        double niebieski = niebieskiSlider.getValue();
+        int b = (int) niebieski;
+        int width,height;
+        int red,green,blue,rgb;
+
+        width =  dstbimg.getWidth();
+        height = dstbimg.getHeight();
+        for(int i=0; i<width; i++){
+            for(int j=0; j< height; j++){
+                rgb = bimg.getRGB(i,j);
+                red = (rgb >> 16) & 0xFF;
+                green = (rgb >> 8) & 0xFF;
+                blue = rgb & 0xFF;
+                blue += b;
+                if(blue < 0) blue = 0;                    //przekroczenie wartosci
+                if( blue > 255) blue = 255;
+                rgb = ((red&0x0ff)<<16)|((green&0x0ff)<<8)|(blue&0x0ff);
+
+                dstbimg.setRGB(i,j,rgb);
+            }
+        }
+
+        ImageIO.write(dstbimg, "jpg", new File("src\\ola2.jpg"));
+        img = new Image(new File("src\\ola2.jpg").toURI().toString());
+        imgView = new ImageView(img);
+        zdjecie.getChildren().clear();
+        zdjecie.getChildren().add(imgView);
     }
 }
 
