@@ -11,17 +11,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDone="#dragDone1" prefHeight="720.0" prefWidth="968.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Slider fx:id="jasnoscSlider" layoutX="781.0" layoutY="154.0" majorTickUnit="100.0" max="50.0" min="-50.0" onDragDone="#dragDone2" onMouseClicked="#dragDone2" showTickLabels="true" />
-      <Slider fx:id="rozmycieSlider" layoutX="781.0" layoutY="87.0" majorTickUnit="5.0" max="10.0" onDragDone="#dragDone1" onMouseClicked="#dragDone1" showTickLabels="true" />
-      <Slider fx:id="ostroscSlider" layoutX="781.0" layoutY="225.0" majorTickUnit="5.0" max="10.0" onDragDone="#dragDone3" onMouseClicked="#dragDone3" showTickLabels="true" />
+      <Slider fx:id="jasnoscSlider" layoutX="781.0" layoutY="154.0" majorTickUnit="100.0" max="50.0" min="-50.0" onMouseDragged="#dragDone2" showTickLabels="true" />
+      <Slider fx:id="rozmycieSlider" layoutX="781.0" layoutY="87.0" majorTickUnit="5.0" max="10.0" onMouseDragged="#dragDone1" showTickLabels="true" />
+      <Slider fx:id="ostroscSlider" layoutX="781.0" layoutY="225.0" majorTickUnit="5.0" max="10.0" onMouseDragged="#dragDone3" showTickLabels="true" />
       <Label layoutX="825.0" layoutY="120.0" text="Rozmycie" />
       <Label layoutX="829.0" layoutY="194.0" text="Jasność" />
       <Label layoutX="830.0" layoutY="258.0" text="Ostrość" />
       <Button alignment="CENTER" layoutX="747.0" layoutY="555.0" mnemonicParsing="false" onAction="#turn90" text="Obrót 90°" />
       <Button alignment="CENTER" layoutX="838.0" layoutY="555.0" mnemonicParsing="false" onAction="#turn180" text="Obrót 180°" />
-      <Slider fx:id="czerwonySlider" layoutX="781.0" layoutY="283.0" majorTickUnit="50.0" max="50.0" min="-50.0" onDragDone="#dragDone4" onMouseClicked="#dragDone4" showTickLabels="true" />
-      <Slider fx:id="zielonySlider" layoutX="781.0" layoutY="350.0" majorTickUnit="50.0" max="50.0" min="-50.0" onDragDone="#dragDone5" onMouseClicked="#dragDone5" showTickLabels="true" />
-      <Slider fx:id="niebieskiSlider" layoutX="781.0" layoutY="415.0" majorTickUnit="50.0" max="50.0" min="-50.0" onDragDone="#dragDone6" onMouseClicked="#dragDone6" showTickLabels="true" />
+      <Slider fx:id="czerwonySlider" layoutX="781.0" layoutY="283.0" majorTickUnit="50.0" max="50.0" min="-50.0" onMouseDragged="#dragDone4" showTickLabels="true" />
+      <Slider fx:id="zielonySlider" layoutX="781.0" layoutY="350.0" majorTickUnit="50.0" max="50.0" min="-50.0" onMouseDragged="#dragDone5" showTickLabels="true" />
+      <Slider fx:id="niebieskiSlider" layoutX="781.0" layoutY="415.0" majorTickUnit="50.0" max="50.0" min="-50.0" onMouseDragged="#dragDone6" showTickLabels="true" />
       <Label layoutX="823.0" layoutY="316.0" text="Czerwony" />
       <Label layoutX="831.0" layoutY="383.0" text="Zielony" />
       <Label layoutX="827.0" layoutY="459.0" text="Niebieski" />

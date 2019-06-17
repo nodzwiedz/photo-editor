@@ -1,7 +1,6 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -196,9 +195,22 @@ public class Controller {
 
     }
 
+
     public void dragDone1() throws IOException {                                           //rozmycie
 
         double rozmycie = (rozmycieSlider.getValue()) +1.0;
+        if(rozmycie<1.1){
+            int width = dstbimg.getWidth();
+            int height = dstbimg.getHeight();
+            int rgb;
+            dstbimg2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    rgb = dstbimg.getRGB(i, j);
+                    dstbimg2.setRGB(i, j, rgb);
+                }
+            }
+        }
         int rozm = (int)rozmycie;
         float wymiar_matrixa = (float)(rozm*rozm);
         float wartosc_matrix = (float)(1.0/wymiar_matrixa);
@@ -209,7 +221,7 @@ public class Controller {
 
         Kernel kernel = new Kernel(rozm,rozm,matrix);
         ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-        cop.filter(bimg,dstbimg);                                                           //filtrujemy
+        cop.filter(dstbimg2,dstbimg);                                                           //filtrujemy
 
         if(rozszerzenie){
             ImageIO.write(dstbimg, "png", new File(filename3));
@@ -226,13 +238,24 @@ public class Controller {
 
     public void dragDone2() throws IOException {                                           //jasnosc
         double jasnosc = jasnoscSlider.getValue();
-        int bright = (int) jasnosc;
         int width = dstbimg.getWidth();
         int height = dstbimg.getHeight();
-        int red,green,blue,rgb;
+        int rgb;
+        if(jasnosc<0.5 && jasnosc>(-0.5)){
+
+            dstbimg2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    rgb = dstbimg.getRGB(i, j);
+                    dstbimg2.setRGB(i, j, rgb);
+                }
+            }
+        }
+        int bright = (int) jasnosc;
+        int red,green,blue;
         for(int i=0; i<width; i++){
             for(int j=0; j<height; j++){
-                rgb = dstbimg.getRGB(i,j);
+                rgb = dstbimg2.getRGB(i,j);
                 red = (rgb >> 16) & 0xFF;
                 green = (rgb >> 8) & 0xFF;
                 blue = rgb & 0xFF;
@@ -264,6 +287,18 @@ public class Controller {
 
     public void dragDone3() throws IOException {                                            //ostrosc
         double double_ostrosc = (ostroscSlider.getValue()) + 1.0;
+        if(double_ostrosc<1.1){
+            int width = dstbimg.getWidth();
+            int height = dstbimg.getHeight();
+            int rgb;
+            dstbimg2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    rgb = dstbimg.getRGB(i, j);
+                    dstbimg2.setRGB(i, j, rgb);
+                }
+            }
+        }
         float ostrosc = (float) double_ostrosc;
         float ostrosc_sasiad = ((ostrosc-1.0f)/4.0f);                                       //liczymy wartosci elementow macierzy
 
@@ -273,7 +308,7 @@ public class Controller {
                 0.0f, -ostrosc_sasiad, 0.0f};
         Kernel kernel = new Kernel(3,3,SHARPEN3x3);
         ConvolveOp cop = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
-        cop.filter(bimg,dstbimg);
+        cop.filter(dstbimg2,dstbimg);
 
         if(rozszerzenie){
             ImageIO.write(dstbimg, "png", new File(filename3));
@@ -290,17 +325,27 @@ public class Controller {
 
     public void dragDone4() throws IOException {                                           //czerwony
 
-
         double czerwony = czerwonySlider.getValue();
-        int r = (int) czerwony;
-        int width,height;
-        int red,green,blue,rgb;
+        int width =  dstbimg.getWidth();
+        int height = dstbimg.getHeight();
+        int rgb;
+        if(czerwony<2.0 && czerwony > (-2.0)){
+            dstbimg2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    rgb = dstbimg.getRGB(i, j);
+                    dstbimg2.setRGB(i, j, rgb);
+                }
+            }
+        }
 
-            width =  dstbimg.getWidth();
-            height = dstbimg.getHeight();
+        int r = (int) czerwony;
+        int red,green,blue;
+
+
             for(int i=0; i<width; i++){
                 for(int j=0; j< height; j++){
-                    rgb = bimg.getRGB(i,j);
+                    rgb = dstbimg2.getRGB(i,j);
                     red = (rgb >> 16) & 0xFF;
                     green = (rgb >> 8) & 0xFF;
                     blue = rgb & 0xFF;
@@ -331,15 +376,25 @@ public class Controller {
     public void dragDone5() throws IOException {                                           //zielony
 
         double zielony = zielonySlider.getValue();
-        int g = (int) zielony;
-        int width,height;
-        int red,green,blue,rgb;
+        int width =  dstbimg.getWidth();
+        int height = dstbimg.getHeight();
+        int rgb;
 
-        width =  dstbimg.getWidth();
-        height = dstbimg.getHeight();
+        if(zielony<0.5 && zielony > (-0.5)){
+            dstbimg2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    rgb = dstbimg.getRGB(i, j);
+                    dstbimg2.setRGB(i, j, rgb);
+                }
+            }
+        }
+        int g = (int) zielony;
+        int red,green,blue;
+
         for(int i=0; i<width; i++){
             for(int j=0; j< height; j++){
-                rgb = bimg.getRGB(i,j);
+                rgb = dstbimg2.getRGB(i,j);
                 red = (rgb >> 16) & 0xFF;
                 green = (rgb >> 8) & 0xFF;
                 blue = rgb & 0xFF;
@@ -368,15 +423,26 @@ public class Controller {
     public void dragDone6() throws IOException {                                           //niebieski
 
         double niebieski = niebieskiSlider.getValue();
-        int b = (int) niebieski;
-        int width,height;
-        int red,green,blue,rgb;
+        int width =  dstbimg.getWidth();
+        int height = dstbimg.getHeight();
+        int rgb;
 
-        width =  dstbimg.getWidth();
-        height = dstbimg.getHeight();
+        if(niebieski<0.5 && niebieski > (-0.5)){
+            dstbimg2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);        //robimy typ INT_RGB
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    rgb = dstbimg.getRGB(i, j);
+                    dstbimg2.setRGB(i, j, rgb);
+                }
+            }
+        }
+
+        int b = (int) niebieski;
+        int red,green,blue;
+
         for(int i=0; i<width; i++){
             for(int j=0; j< height; j++){
-                rgb = bimg.getRGB(i,j);
+                rgb = dstbimg2.getRGB(i,j);
                 red = (rgb >> 16) & 0xFF;
                 green = (rgb >> 8) & 0xFF;
                 blue = rgb & 0xFF;
