@@ -80,11 +80,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4437">
-              <caret line="261" column="36" selection-start-line="261" selection-start-column="36" selection-end-line="261" selection-end-column="36" />
+            <state relative-caret-position="-2861">
+              <caret line="204" column="48" selection-start-line="204" selection-start-column="48" selection-end-line="204" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5155#5156#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -93,8 +92,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="24" column="155" selection-start-line="24" selection-start-column="155" selection-end-line="24" selection-end-column="155" />
+            <state relative-caret-position="391">
+              <caret line="23" column="164" selection-start-line="23" selection-start-column="164" selection-end-line="23" selection-end-column="164" />
             </state>
           </provider>
           <provider editor-type-id="JavaFX-Scene-Builder" />
@@ -117,11 +116,11 @@
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
-    <option name="width" value="1615" />
-    <option name="height" value="880" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1613" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
@@ -272,7 +271,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.16288953" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.25354108" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.13597734" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -384,13 +383,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_212/javafx-src.zip!/javafx/scene/image/Image.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="1109" column="26" selection-start-line="1109" selection-start-column="26" selection-end-line="1109" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_212/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="32">
@@ -419,6 +411,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="164" selection-start-line="23" selection-start-column="164" selection-end-line="23" selection-end-column="164" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -431,21 +431,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_212/javafx-src.zip!/javafx/scene/image/Image.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="24" column="155" selection-start-line="24" selection-start-column="155" selection-end-line="24" selection-end-column="155" />
+        <state relative-caret-position="167">
+          <caret line="1109" column="26" selection-start-line="1109" selection-start-column="26" selection-end-line="1109" selection-end-column="26" />
         </state>
       </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4437">
-          <caret line="261" column="36" selection-start-line="261" selection-start-column="36" selection-end-line="261" selection-end-column="36" />
+        <state relative-caret-position="-2861">
+          <caret line="204" column="48" selection-start-line="204" selection-start-column="48" selection-end-line="204" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5155#5156#0" expanded="true" />
           </folding>
         </state>
       </provider>
